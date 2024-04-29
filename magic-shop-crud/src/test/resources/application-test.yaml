@@ -1,0 +1,15 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: jdbc:h2:mem:magicshop;INIT=CREATE SCHEMA IF NOT EXISTS MAGICSHOP
+    username: sa
+    password: 12345
+    driver-class-name: org.h2.Driver

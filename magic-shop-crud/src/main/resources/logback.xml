@@ -8,7 +8,7 @@
         </layout>
     </appender>
 
-    <logger name="ru.ilya.zuev.magic.crud" level="debug" additivity="false">
+    <logger name="ru.ilya.zuev.magic.crud" level="INFO" additivity="false">
         <appender-ref ref="CONSOLE"/>
     </logger>
 

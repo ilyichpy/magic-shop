@@ -12,7 +12,7 @@ import ru.ilya.zuev.magic.crud.dto.mapper.MagicWandMapperImpl;
 import ru.ilya.zuev.magic.crud.dto.responseDto.MagicWandResponse;
 import ru.ilya.zuev.magic.crud.service.MagicWandService;
 
-import javax.ws.rs.core.Response;
+import java.util.List;
 
 @RestController
 @RequestMapping("/magic_shop/wands")
@@ -24,7 +24,7 @@ public class MagicWandController {
 	private final ObjectMapper objectMapper;
 
 	@PostMapping("save")
-	public ResponseEntity<MagicWandResponse> getWandById(@RequestBody MagicWandEntity magicWand) throws JsonProcessingException {
+	public ResponseEntity<MagicWandResponse> saveWand(@RequestBody MagicWandEntity magicWand) throws JsonProcessingException {
 		log.trace("Пришел запрос на адрес /magic_shop/wands/save");
 		log.info("попытка сохранить волшебную палочку: {}", objectMapper.writeValueAsString(magicWand));
 		if (magicWand.getName() == null || magicWand.getName().isEmpty()) {
@@ -32,7 +32,25 @@ public class MagicWandController {
 			return new ResponseEntity<>(magicWandMapper.toResponse(magicWand),
 					HttpStatusCode.valueOf(501));
 		}
-		return new ResponseEntity<>(magicWandService.save(magicWand),
+		MagicWandResponse response = magicWandService.save(magicWand);
+		log.info("Успешно сохранили палочку в базе name={}", magicWand.getName());
+		return new ResponseEntity<>(response,
+				HttpStatusCode.valueOf(200));
+	}
+
+	@GetMapping("find_by_name")
+	public ResponseEntity<List<MagicWandResponse>> findByName(@RequestBody String name ) {
+		log.trace("Пришел запрос на адрес /magic_shop/wands/find_by_name");
+		log.info("ищем в базе данных палочку с name={}", name);
+		if (name == null || name.isEmpty()) {
+			log.warn("пустое имя не может быть в базе");
+			return new ResponseEntity<>(null, HttpStatusCode.valueOf(501));
+		}
+		List<MagicWandResponse> responseList = magicWandService.findWandByName(name);
+		if (responseList.isEmpty()) {
+			log.info("по запросу не нашлось палочки");
+		}
+		return new ResponseEntity<>(responseList,
 				HttpStatusCode.valueOf(200));
 	}
 }
