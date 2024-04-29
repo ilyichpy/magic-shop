@@ -1,6 +1,7 @@
 package ru.ilya.zuev.magic.crud.dto;
 
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
 import lombok.*;
 
