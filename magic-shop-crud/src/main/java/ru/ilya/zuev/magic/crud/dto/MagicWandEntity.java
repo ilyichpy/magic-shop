@@ -16,24 +16,30 @@ public class MagicWandEntity {
 	@GeneratedValue(generator = "WAND_ID_SEQ", strategy = GenerationType.SEQUENCE)
 	@SequenceGenerator(name = "WAND_ID_SEQ", sequenceName = "WAND_ID_SEQ")
 	@Column(name = "ID")
-	Long id;
+	private Long id;
 
 	/*
 	* Имя палочки
 	*/
 	@Column(name = "WAND_NAME")
-	String name;
+	private String name;
 
 	/*
 	* Длина палочки
 	*/
 	@Column(name = "LENGTH")
-	double length;
+	private double length;
 
 	/*
 	* Ширина палочки
 	*/
 	@Column(name = "WIDTH")
-	double width;
+	private double width;
+
+	/*
+	* Вес палочки
+	*/
+	@Column(name = "WEIGHT")
+	private double weight;
 
 }
