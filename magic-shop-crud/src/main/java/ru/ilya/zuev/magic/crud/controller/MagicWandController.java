@@ -53,4 +53,34 @@ public class MagicWandController {
 		return new ResponseEntity<>(responseList,
 				HttpStatusCode.valueOf(200));
 	}
+
+	@PutMapping("update")
+	public ResponseEntity<MagicWandResponse> update(@RequestBody MagicWandEntity magicWand) throws JsonProcessingException {
+		log.trace("пришел запрос на адрес /magic_shop/wands/update");
+		log.info("нужно обновить информацию: {}", objectMapper.writeValueAsString(magicWand));
+		if (magicWand.getId() == null || magicWand.getId() == 0) {
+			log.warn("пустой id не принимается");
+			return new ResponseEntity<>(null, HttpStatusCode.valueOf(501));
+		}
+		MagicWandResponse response = magicWandService.updateById(magicWand);
+		return new ResponseEntity<>(response, HttpStatusCode.valueOf(200));
+	}
+
+	@GetMapping("find_by_id")
+	public ResponseEntity<MagicWandResponse> findById(@RequestBody Long id) {
+		log.trace("пришел запрос на адрес /magic_shop/wands/find_by_id");
+		log.info("Ищем сущность с id={}", id);
+		MagicWandResponse response = magicWandService.findById(id);
+		if (response == null) {
+			return new ResponseEntity<>(null, HttpStatusCode.valueOf(502));
+		}
+		return new ResponseEntity<>(response, HttpStatusCode.valueOf(200));
+	}
+
+	@DeleteMapping("delete_by_id")
+	public void deleteById(@RequestBody Long id) {
+		log.trace("пришел запрос на адрес /magic_shop/wands/find_by_id");
+		log.info("Ищем сущность с id={}", id);
+		magicWandService.deleteById(id);
+	}
 }

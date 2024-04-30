@@ -10,6 +10,7 @@ import ru.ilya.zuev.magic.crud.dto.responseDto.MagicWandResponse;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -30,5 +31,29 @@ public class MagicWandService {
 			responseList.add(magicWandMapper.toResponse(magicWand));
 		}
 		return responseList;
+	}
+
+	public MagicWandResponse updateById(MagicWandEntity replace) {
+		log.debug("Обнавляем entity с id={}", replace.getId());
+		if (!magicWandRepository.findById(replace.getId()).isPresent()) {
+			log.warn("В бд не найдена палочка с id={}", replace.getId());
+			return null;
+		}
+		return magicWandMapper.toResponse(magicWandRepository.save(replace));
+	}
+
+	public MagicWandResponse findById(Long id) {
+		log.debug("Ищем палочку по id={}", id);
+		Optional<MagicWandEntity> entity = magicWandRepository.findById(id);
+		if (!entity.isPresent()) {
+			log.trace("Палочки с таким id={} нет", id);
+			return null;
+		}
+		return magicWandMapper.toResponse(entity.get());
+	}
+
+	public void deleteById(Long id) {
+		log.debug("Удаляем палочку по id={}", id);
+		magicWandRepository.deleteById(id);
 	}
 }

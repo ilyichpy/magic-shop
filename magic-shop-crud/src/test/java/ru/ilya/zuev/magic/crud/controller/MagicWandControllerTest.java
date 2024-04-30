@@ -1,6 +1,6 @@
 package ru.ilya.zuev.magic.crud.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,7 +22,8 @@ class MagicWandControllerTest {
 	private MagicWandController magicWandController;
 
 	@Test
-	void saveWandTest() throws JsonProcessingException {
+	@SneakyThrows
+	void saveWandTest() {
 		MagicWandEntity testMagicWand1 = MagicWandEntity.builder()
 				.name("test_name")
 				.width(1.24)
@@ -37,5 +38,58 @@ class MagicWandControllerTest {
 		assertEquals(responseList.size(), 1);
 		// проверяем имя на соответствие
 		assertEquals(responseList.get(0).getName(), testMagicWand1.getName());
+	}
+
+	@Test
+	@SneakyThrows
+	void updateEntityTest() {
+		MagicWandEntity startEntity = MagicWandEntity.builder()
+				.id(1L)
+				.name("test_name")
+				.width(1.24)
+				.weight(2)
+				.length(5.1)
+				.build();
+		MagicWandEntity updatedEntity = MagicWandEntity.builder()
+				.id(1L)
+				.name("updated_entity")
+				.width(2.1)
+				.weight(1)
+				.length(6.1)
+				.build();
+		// сохраняем
+		magicWandController.saveWand(startEntity);
+		// сразу обнавляем
+		magicWandController.update(updatedEntity);
+		MagicWandResponse response = magicWandController.findById(updatedEntity.getId()).getBody();
+		// проверяем наличие и соответствие полей
+		assert response != null;
+		assertEquals(response.getName(), updatedEntity.getName());
+		assertEquals(response.getLength(), updatedEntity.getLength());
+		assertEquals(response.getWeight(), updatedEntity.getWeight());
+		assertEquals(response.getWidth(), updatedEntity.getWidth());
+	}
+
+	@Test
+	@SneakyThrows
+	void deleteEntityTest() {
+		MagicWandEntity startEntity = MagicWandEntity.builder()
+				.id(1L)
+				.name("test_name")
+				.width(1.24)
+				.weight(2)
+				.length(5.1)
+				.build();
+		magicWandController.saveWand(startEntity);
+		MagicWandResponse response = magicWandController
+				.findById(startEntity.getId()).getBody();
+		// проверяем условно, что нашли в базе сохраненную сущность
+		assert response != null;
+		assertEquals(response.getName(), startEntity.getName());
+		magicWandController.deleteById(startEntity.getId());
+		// проверяем, удаление сущности
+		MagicWandResponse response1 = magicWandController
+				.findById(startEntity.getId()).getBody();
+		assert response1 == null;
 	}
 }
