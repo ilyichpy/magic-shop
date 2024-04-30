@@ -10,19 +10,27 @@ import org.springframework.web.bind.annotation.*;
 import ru.ilya.zuev.magic.crud.dto.MagicWandEntity;
 import ru.ilya.zuev.magic.crud.dto.mapper.MagicWandMapperImpl;
 import ru.ilya.zuev.magic.crud.dto.responseDto.MagicWandResponse;
-import ru.ilya.zuev.magic.crud.service.MagicWandService;
+import ru.ilya.zuev.magic.crud.service.MagicWandServiceImpl;
 
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/magic_shop/wands")
 @RequiredArgsConstructor
 @Slf4j
 public class MagicWandController {
-	private final MagicWandService magicWandService;
+	private final MagicWandServiceImpl magicWandServiceImpl;
 	private final MagicWandMapperImpl magicWandMapper;
 	private final ObjectMapper objectMapper;
 
+	/**
+	 *
+	 * @param magicWand должны получить json MagicWandEntity
+	 * @return ResponseEntity, в котором будет так же код ответа
+	 * @apiNote 200 - все хорошо, 501 - нет имени палочки
+	 * @throws JsonProcessingException исключение JsonProcessing
+	 */
 	@PostMapping("save")
 	public ResponseEntity<MagicWandResponse> saveWand(@RequestBody MagicWandEntity magicWand) throws JsonProcessingException {
 		log.trace("Пришел запрос на адрес /magic_shop/wands/save");
@@ -32,12 +40,18 @@ public class MagicWandController {
 			return new ResponseEntity<>(magicWandMapper.toResponse(magicWand),
 					HttpStatusCode.valueOf(501));
 		}
-		MagicWandResponse response = magicWandService.save(magicWand);
+		MagicWandResponse response = magicWandServiceImpl.save(magicWand);
 		log.info("Успешно сохранили палочку в базе name={}", magicWand.getName());
 		return new ResponseEntity<>(response,
 				HttpStatusCode.valueOf(200));
 	}
 
+	/**
+	 *
+	 * @param name ищем все совпадения по имени
+	 * @return ResponseEntity, в котором будет так же код ответа
+	 * @apiNote 200 - все хорошо, 501 - нет имени палочки
+	 */
 	@GetMapping("find_by_name")
 	public ResponseEntity<List<MagicWandResponse>> findByName(@RequestBody String name ) {
 		log.trace("Пришел запрос на адрес /magic_shop/wands/find_by_name");
@@ -46,7 +60,7 @@ public class MagicWandController {
 			log.warn("пустое имя не может быть в базе");
 			return new ResponseEntity<>(null, HttpStatusCode.valueOf(501));
 		}
-		List<MagicWandResponse> responseList = magicWandService.findWandByName(name);
+		List<MagicWandResponse> responseList = magicWandServiceImpl.findWandByName(name);
 		if (responseList.isEmpty()) {
 			log.info("по запросу не нашлось палочки");
 		}
@@ -54,6 +68,14 @@ public class MagicWandController {
 				HttpStatusCode.valueOf(200));
 	}
 
+	/**
+	 *
+	 * @param magicWand
+	 * новая сущность по id которой будем обновлять существующую сущность
+	 * @return ResponseEntity, в котором будет так же код ответа
+	 * @throws JsonProcessingException исключение JsonProcessing
+	 * @apiNote @apiNote 200 - все хорошо, 501 - нет id палки
+	 */
 	@PutMapping("update")
 	public ResponseEntity<MagicWandResponse> update(@RequestBody MagicWandEntity magicWand) throws JsonProcessingException {
 		log.trace("пришел запрос на адрес /magic_shop/wands/update");
@@ -62,25 +84,35 @@ public class MagicWandController {
 			log.warn("пустой id не принимается");
 			return new ResponseEntity<>(null, HttpStatusCode.valueOf(501));
 		}
-		MagicWandResponse response = magicWandService.updateById(magicWand);
+		MagicWandResponse response = magicWandServiceImpl.updateById(magicWand);
 		return new ResponseEntity<>(response, HttpStatusCode.valueOf(200));
 	}
 
+	/**
+	 *
+	 * @param id по этому id ищем сущность
+	 * @return ResponseEntity, в котором будет так же код ответа
+	 * @apiNote 200 - все хорошо, 501 - не нашли сущность
+	 */
 	@GetMapping("find_by_id")
 	public ResponseEntity<MagicWandResponse> findById(@RequestBody Long id) {
 		log.trace("пришел запрос на адрес /magic_shop/wands/find_by_id");
 		log.info("Ищем сущность с id={}", id);
-		MagicWandResponse response = magicWandService.findById(id);
+		MagicWandResponse response = magicWandServiceImpl.findById(id);
 		if (response == null) {
-			return new ResponseEntity<>(null, HttpStatusCode.valueOf(502));
+			return new ResponseEntity<>(null, HttpStatusCode.valueOf(501));
 		}
 		return new ResponseEntity<>(response, HttpStatusCode.valueOf(200));
 	}
 
+	/**
+	 *
+	 * @param id, удаляем сущность по этому id
+	 */
 	@DeleteMapping("delete_by_id")
 	public void deleteById(@RequestBody Long id) {
 		log.trace("пришел запрос на адрес /magic_shop/wands/find_by_id");
 		log.info("Ищем сущность с id={}", id);
-		magicWandService.deleteById(id);
+		magicWandServiceImpl.deleteById(id);
 	}
 }

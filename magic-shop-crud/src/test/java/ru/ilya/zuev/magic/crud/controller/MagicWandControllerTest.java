@@ -44,14 +44,14 @@ class MagicWandControllerTest {
 	@SneakyThrows
 	void updateEntityTest() {
 		MagicWandEntity startEntity = MagicWandEntity.builder()
-				.id(1L)
+				.id(2L)
 				.name("test_name")
 				.width(1.24)
 				.weight(2)
 				.length(5.1)
 				.build();
 		MagicWandEntity updatedEntity = MagicWandEntity.builder()
-				.id(1L)
+				.id(2L)
 				.name("updated_entity")
 				.width(2.1)
 				.weight(1)
