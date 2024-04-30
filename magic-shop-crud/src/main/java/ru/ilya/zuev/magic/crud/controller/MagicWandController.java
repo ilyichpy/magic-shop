@@ -15,6 +15,12 @@ import ru.ilya.zuev.magic.crud.service.MagicWandServiceImpl;
 import java.util.List;
 
 
+/**
+ * <p>MagicWandController class.</p>
+ *
+ * @author ilazuev
+ * @version $Id: $Id
+ */
 @RestController
 @RequestMapping("/magic_shop/wands")
 @RequiredArgsConstructor
@@ -25,11 +31,12 @@ public class MagicWandController {
 	private final ObjectMapper objectMapper;
 
 	/**
+	 * <p>saveWand.</p>
 	 *
 	 * @param magicWand должны получить json MagicWandEntity
 	 * @return ResponseEntity, в котором будет так же код ответа
 	 * @apiNote 200 - все хорошо, 501 - нет имени палочки
-	 * @throws JsonProcessingException исключение JsonProcessing
+	 * @throws com.fasterxml.jackson.core.JsonProcessingException исключение JsonProcessing
 	 */
 	@PostMapping("save")
 	public ResponseEntity<MagicWandResponse> saveWand(@RequestBody MagicWandEntity magicWand) throws JsonProcessingException {
@@ -47,6 +54,7 @@ public class MagicWandController {
 	}
 
 	/**
+	 * <p>findByName.</p>
 	 *
 	 * @param name ищем все совпадения по имени
 	 * @return ResponseEntity, в котором будет так же код ответа
@@ -69,11 +77,12 @@ public class MagicWandController {
 	}
 
 	/**
+	 * <p>update.</p>
 	 *
 	 * @param magicWand
 	 * новая сущность по id которой будем обновлять существующую сущность
 	 * @return ResponseEntity, в котором будет так же код ответа
-	 * @throws JsonProcessingException исключение JsonProcessing
+	 * @throws com.fasterxml.jackson.core.JsonProcessingException исключение JsonProcessing
 	 * @apiNote @apiNote 200 - все хорошо, 501 - нет id палки
 	 */
 	@PutMapping("update")
@@ -89,6 +98,7 @@ public class MagicWandController {
 	}
 
 	/**
+	 * <p>findById.</p>
 	 *
 	 * @param id по этому id ищем сущность
 	 * @return ResponseEntity, в котором будет так же код ответа
@@ -106,8 +116,9 @@ public class MagicWandController {
 	}
 
 	/**
+	 * <p>deleteById.</p>
 	 *
-	 * @param id, удаляем сущность по этому id
+	 * @param id a {@link java.lang.Long} object
 	 */
 	@DeleteMapping("delete_by_id")
 	public void deleteById(@RequestBody Long id) {
