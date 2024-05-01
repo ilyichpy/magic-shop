@@ -11,13 +11,6 @@ import ru.ilya.zuev.magic.crud.dto.responseDto.MagicWandResponse;
  * @version $Id: $Id
  */
 @Mapper(componentModel = "spring")
-@SuppressWarnings(value = "doclint:missing")
 public interface MagicWandMapper {
-	/**
-	 * <p>toResponse.</p>
-	 *
-	 * @param magicWandEntity a {@link ru.ilya.zuev.magic.crud.dto.MagicWandEntity} object
-	 * @return a {@link ru.ilya.zuev.magic.crud.dto.responseDto.MagicWandResponse} object
-	 */
 	MagicWandResponse toResponse(MagicWandEntity magicWandEntity);
 }

@@ -14,11 +14,5 @@ import java.util.List;
  */
 @Repository
 public interface MagicWandRepo extends CrudRepository<MagicWandEntity, Long> {
-	/**
-	 * <p>findAllByName.</p>
-	 *
-	 * @param name a {@link java.lang.String} object
-	 * @return a {@link java.util.List} object
-	 */
 	List<MagicWandEntity> findAllByName(String name);
 }

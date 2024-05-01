@@ -25,14 +25,12 @@ public class MagicWandServiceImpl implements MagicWandService {
 	private final MagicWandRepo magicWandRepository;
 	private final MagicWandMapperImpl magicWandMapper;
 
-	/** {@inheritDoc} */
 	@Override
 	public MagicWandResponse save(MagicWandEntity magicWand) {
 		log.debug("Сохранили в базе данных magicWand с name={}", magicWand.getName());
 		return magicWandMapper.toResponse(magicWandRepository.save(magicWand));
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public List<MagicWandResponse> findWandByName(String name) {
 		log.debug("ищем в базе все палочки с name={}", name);
@@ -43,7 +41,6 @@ public class MagicWandServiceImpl implements MagicWandService {
 		return responseList;
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public MagicWandResponse updateById(MagicWandEntity replace) {
 		log.debug("Обнавляем entity с id={}", replace.getId());
@@ -54,7 +51,6 @@ public class MagicWandServiceImpl implements MagicWandService {
 		return magicWandMapper.toResponse(magicWandRepository.save(replace));
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public MagicWandResponse findById(Long id) {
 		log.debug("Ищем палочку по id={}", id);
@@ -66,7 +62,6 @@ public class MagicWandServiceImpl implements MagicWandService {
 		return magicWandMapper.toResponse(entity.get());
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void deleteById(Long id) {
 		log.debug("Удаляем палочку по id={}", id);
