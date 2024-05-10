@@ -15,5 +15,4 @@ public class MagicShopCrudApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MagicShopCrudApplication.class, args);
 	}
-
 }

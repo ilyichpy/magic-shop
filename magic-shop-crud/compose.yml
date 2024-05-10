@@ -1,0 +1,9 @@
+services:
+  db_pg_magic:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: magic_shop
+      POSTGRES_USER: ilya
+      POSTGRES_PASSWORD: zuev
+    ports:
+      - 5432
