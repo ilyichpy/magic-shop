@@ -1,7 +1,6 @@
-
 spring:
   datasource:
-    url: ${ILYA_ZUEV_URL}
+    url: java
     username: ${ILYA_ZUEV_USER}
     password: ${ILYA_ZUEV_PASS}
   jpa:
